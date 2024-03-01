@@ -11,8 +11,8 @@ class ImporterAdmin(admin.ModelAdmin):
 
 @admin.register(BillOfEntry)
 class BillOfEntryAdmin(admin.ModelAdmin):
-    list_display = ('importer', 'entry_number', 'invoice_reference', 'description')
+    list_display = ('importer', 'entry_number', 'invoice_reference', 'description','attached_documents')
 
 @admin.register(InternalDocument)
 class InternalDocumentAdmin(admin.ModelAdmin):
-    list_display = ('company_name', 'document_name', 'description')
+    list_display = ('company_name', 'document_name', 'description','attached_documents')
