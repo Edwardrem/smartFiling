@@ -1,0 +1,13 @@
+<!-- edit_user.html -->
+<h1>Edit User</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="name" value="{{ user.name }}"><br>
+    <input type="email" name="email" value="{{ user.email }}"><br>
+    <input type="password" name="password" value="{{ user.password }}"><br>
+    <select name="role">
+        <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
+        <option value="User" {% if user.role == 'User' %}selected{% endif %}>User</option>
+    </select><br>
+    <input type="submit" value="Update User">
+</form>

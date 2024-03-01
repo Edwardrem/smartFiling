@@ -17,6 +17,12 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from shipping_system import views
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('users/', views.user_list, name='user_list'),
+    path('users/add/', views.add_user, name='add_user'),
+    path('users/<int:user_id>/edit/', views.edit_user, name='edit_user'),
+    path('users/<int:user_id>/delete/', views.delete_user, name='delete_user'),
 ]
