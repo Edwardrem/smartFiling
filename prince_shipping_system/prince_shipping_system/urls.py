@@ -29,4 +29,11 @@ urlpatterns = [
     path('importers/add/', views.add_importer, name='add_importer'),
     path('importers/<int:importer_id>/edit/', views.edit_importer, name='edit_importer'),
     path('importers/<int:importer_id>/delete/', views.delete_importer, name='delete_importer'),
+    path('bills_of_entry/', views.bill_of_entry_list, name='bill_of_entry_list'),
+    path('bills_of_entry/add/', views.add_bill_of_entry, name='add_bill_of_entry'),
+    path('bills_of_entry/<int:bill_of_entry_id>/edit/', views.edit_bill_of_entry, name='edit_bill_of_entry'),
+    path('bills_of_entry/search/', views.search_bill_of_entry, name='search_bill_of_entry'),
+    path('bills_of_entry/<int:document_id>/preview/', views.preview_document, name='preview_document'),
+    path('bills_of_entry/<int:document_id>/download/', views.download_document, name='download_document'),
+    path('bills_of_entry/<int:bill_of_entry_id>/delete/', views.delete_bill_of_entry, name='delete_bill_of_entry'),
 ]

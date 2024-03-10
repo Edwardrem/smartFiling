@@ -1,0 +1,21 @@
+<!-- edit_bill_of_entry.html -->
+<h1>Edit Bill of Entry</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="importer">Importer Name:</label>
+    <select name="importer" id="importer">
+        <!-- Populate the dropdown with importer names -->
+        <option value="1">Importer A</option>
+        <option value="2">Importer B</option>
+        <!-- Add more options as needed -->
+    </select><br>
+    <label for="entry_number">Bill of Entry Number:</label>
+    <input type="text" name="entry_number" value="12345"><br>
+    <label for="invoice_reference">Invoice/Reference:</label>
+    <input type="text" name="invoice_reference" value="INV-123"><br>
+    <label for="description">Description:</label>
+    <textarea name="description">Description of the bill of entry</textarea><br>
+    <label for="documents">Attach Documents:</label>
+    <input type="file" name="documents" accept=".pdf, .png, .jpg"><br>
+    <input type="submit" value="Update Bill of Entry">
+</form>

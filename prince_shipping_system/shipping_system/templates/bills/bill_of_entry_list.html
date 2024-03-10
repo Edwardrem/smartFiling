@@ -1,0 +1,24 @@
+<!-- bill_of_entry_list.html -->
+<h1>Bill of Entry List</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search by description">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <p>Search results for: "{{ query }}"</p>
+{% endif %}
+
+<ul>
+    {% for bill_of_entry in bills_of_entry %}
+        <li>{{ bill_of_entry.description }}
+            <a href="{% url 'edit_bill_of_entry' bill_of_entry.id %}">Edit</a> |
+            <a href="{% url 'delete_bill_of_entry' bill_of_entry.id %}">Delete</a> |
+            <a href="{% url 'preview_document' bill_of_entry.id %}">Preview</a> |
+            <a href="{% url 'download_document' bill_of_entry.id %}">Download</a>
+        </li>
+    {% empty %}
+        <li>No bills of entry found.</li>
+    {% endfor %}
+</ul>
