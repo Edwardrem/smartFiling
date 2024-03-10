@@ -5,7 +5,12 @@ from shipping_system import views
 # User Views
 def user_list(request):
     users = User.objects.all()
-    return render(request, 'users/user_list.html', {'users': users})
+
+    query = request.GET.get('q')
+    if query:
+        users = users.filter(name__icontains=query)  # Filter users by name (case-insensitive)
+
+    return render(request, 'users/user_list.html', {'users': users, 'query': query})
 
 def add_user(request):
     if request.method == 'POST':
@@ -34,3 +39,33 @@ def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
     user.delete()
     return redirect('users/user_list')
+
+# Importer Views
+def importer_list(request):
+    importers = Importer.objects.all()
+
+    query = request.GET.get('q')
+    if query:
+        importers = importers.filter(name__icontains=query)  # Filter importers by name (case-insensitive)
+
+    return render(request, 'importers/importer_list.html', {'importers': importers, 'query': query})
+
+def add_importer(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        new_importer = Importer.objects.create(name=name)
+        return redirect('importer_list')
+    return render(request, 'importers/add_importer.html')
+
+def edit_importer(request, importer_id):
+    importer = Importer.objects.get(id=importer_id)
+    if request.method == 'POST':
+        importer.name = request.POST.get('name')
+        importer.save()
+        return redirect('importer_list')
+    return render(request, 'importers/edit_importer.html', {'importer': importer})
+
+def delete_importer(request, importer_id):
+    importer = Importer.objects.get(id=importer_id)
+    importer.delete()
+    return redirect('importer_list')

@@ -1,0 +1,7 @@
+<!-- add_importer.html -->
+<h1>Add New Importer</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="name" placeholder="Importer Name"><br>
+    <input type="submit" value="Add Importer">
+</form>

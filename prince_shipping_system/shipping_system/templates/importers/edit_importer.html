@@ -1,0 +1,7 @@
+<!-- edit_importer.html -->
+<h1>Edit Importer</h1>
+<form method="post">
+    {% csrf_token %}
+    <input type="text" name="name" value="{{ importer.name }}"><br>
+    <input type="submit" value="Update Importer">
+</form>

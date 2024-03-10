@@ -1,4 +1,13 @@
 <!-- user_list.html -->
+<form method="get">
+    <input type="text" name="q" placeholder="Search by name">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <p>Search results for: "{{ query }}"</p>
+{% endif %}
+
 <h1>User List</h1>
 <ul>
     {% for user in users %}

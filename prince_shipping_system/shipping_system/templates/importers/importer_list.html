@@ -1,0 +1,21 @@
+<!-- importer_list.html -->
+<h1>Importer List</h1>
+<form method="get">
+    <input type="text" name="q" placeholder="Search by name">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <p>Search results for: "{{ query }}"</p>
+{% endif %}
+<ul>
+    {% for importer in importers %}
+        <li>{{ importer.name }}
+            <a href="{% url 'edit_importer' importer.id %}">Edit</a> |
+            <a href="{% url 'delete_importer' importer.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No importers found.</li>
+    {% endfor %}
+</ul>
+<a href="{% url 'add_importer' %}">Add Importer</a>
