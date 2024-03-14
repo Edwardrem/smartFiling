@@ -1,6 +1,7 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Importer, BillOfEntry, InternalDocument
-from django.http import HttpResponse
+import mimetypes
+from django.http import HttpResponse, FileResponse
 from shipping_system import views
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -155,8 +156,22 @@ def preview_document(request, document_id):
         return HttpResponse("Document Preview is not available for this file type.")
 
 def download_document(request, document_id):
-    # Logic to download the document
-    return HttpResponse("Document Downloaded")
+    # Retrieve the BillOfEntry object based on the document_id
+    bill_of_entry = get_object_or_404(BillOfEntry, id=document_id)
+    
+    # Get the file path of the attached document
+    file_path = bill_of_entry.attached_documents.path
+    
+    # Set the appropriate content type for the response
+    content_type = mimetypes.guess_type(file_path)[0]
+    
+    # Create a FileResponse with the file
+    response = FileResponse(open(file_path, 'rb'), content_type=content_type)
+    
+    # Set the content-disposition header for the response to trigger a download
+    response['Content-Disposition'] = f'attachment; filename="{os.path.basename(file_path)}"'
+    
+    return response
 
 def delete_bill_of_entry(request, bill_of_entry_id):
     bill_of_entry = BillOfEntry.objects.get(id=bill_of_entry_id)
