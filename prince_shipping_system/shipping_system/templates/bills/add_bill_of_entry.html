@@ -3,11 +3,10 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="importer">Importer Name:</label>
-    <select name="importer" id="importer">
-        <!-- Populate the dropdown with importer names -->
-        <option value="1">Importer A</option>
-        <option value="2">Importer B</option>
-        <!-- Add more options as needed -->
+    <select name="importer">
+        {% for importer in importers %}
+            <option value="{{ importer.id }}">{{ importer.name }}</option>
+        {% endfor %}
     </select><br>
     <label for="entry_number">Bill of Entry Number:</label>
     <input type="text" name="entry_number"><br>

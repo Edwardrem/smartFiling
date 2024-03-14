@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from .models import User, Importer, BillOfEntry, InternalDocument
 from django.http import HttpResponse
 from shipping_system import views
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
+import os
 
 # User Views
 def user_list(request):
@@ -77,18 +80,59 @@ def bill_of_entry_list(request):
     return render(request, 'bills/bill_of_entry_list.html', {'bills_of_entry': bills_of_entry})
 
 def add_bill_of_entry(request):
+    importers = Importer.objects.all()
+    
     if request.method == 'POST':
         # Process form data and create a new bill of entry
         # Handle file uploads
+        importer_name = request.POST.get('importer')
+        entry_number = request.POST.get('entry_number')
+        invoice_reference = request.POST.get('invoice_reference')
+        description = request.POST.get('description')
+        
+        # Handle file upload
+        attached_document = request.FILES.get('documents')
+        
+        # Create a new BillOfEntry object
+        importer_instance = Importer.objects.get(id=importer_name)
+        new_bill_of_entry = BillOfEntry.objects.create(
+            importer=importer_instance,
+            entry_number=entry_number,
+            invoice_reference=invoice_reference,
+            description=description,
+            attached_documents=attached_document
+        )
+        
+        # Save the new bill of entry
+        new_bill_of_entry.save()
         return redirect('bill_of_entry_list')
-    return render(request, 'bills/add_bill_of_entry.html')
+    return render(request, 'bills/add_bill_of_entry.html', {'importers': importers})
 
 def edit_bill_of_entry(request, bill_of_entry_id):
+    importers = Importer.objects.all()
     bill_of_entry = BillOfEntry.objects.get(id=bill_of_entry_id)
     if request.method == 'POST':
         # Process form data and update the bill of entry
+        importer_id = request.POST.get('importer')
+        entry_number = request.POST.get('entry_number')
+        invoice_reference = request.POST.get('invoice_reference')
+        description = request.POST.get('description')
+        
+        # Handle file upload
+        attached_document = request.FILES.get('documents')
+        
+        # Update the existing BillOfEntry object
+        bill_of_entry.importer = Importer.objects.get(id=importer_id)
+        bill_of_entry.entry_number = entry_number
+        bill_of_entry.invoice_reference = invoice_reference
+        bill_of_entry.description = description
+        if attached_document:
+            bill_of_entry.attached_document = attached_document
+        
+        # Save the updated bill of entry
+        bill_of_entry.save()
         return redirect('bill_of_entry_list')
-    return render(request, 'bills/edit_bill_of_entry.html', {'bill_of_entry': bill_of_entry})
+    return render(request, 'bills/edit_bill_of_entry.html', {'bill_of_entry': bill_of_entry, 'importers': importers})
 
 def search_bill_of_entry(request):
     query = request.GET.get('q')
@@ -96,8 +140,19 @@ def search_bill_of_entry(request):
     return render(request, 'bills/bill_of_entry_list.html', {'bills_of_entry': bills_of_entry, 'query': query})
 
 def preview_document(request, document_id):
-    # Logic to preview the document
-    return HttpResponse("Document Preview")
+    bill_of_entry = BillOfEntry.objects.get(id=document_id)
+    file_path = bill_of_entry.attached_documents.name  # Get the file path of the attached document
+    file_name = bill_of_entry.attached_documents.name.split('/')[-1]  # Extract the file name
+
+    # Check if the file is a PDF
+    if file_path.endswith('.pdf'):
+        # Serve the PDF file for preview
+        with open(os.path.join(settings.MEDIA_ROOT, file_path), 'rb') as pdf_file:
+            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = f'inline; filename="{file_name}"'
+            return response
+    else:
+        return HttpResponse("Document Preview is not available for this file type.")
 
 def download_document(request, document_id):
     # Logic to download the document

@@ -13,6 +13,11 @@
 <ul>
     {% for bill_of_entry in bills_of_entry %}
         <li>{{ bill_of_entry.description }}
+            <strong>Importer Name:</strong> {{ bill_of_entry.importer.name }}<br>
+            <strong>Entry Number:</strong> {{ bill_of_entry.entry_number }}<br>
+            <strong>Invoice/Reference:</strong> {{ bill_of_entry.invoice_reference }}<br>
+            <strong>Description:</strong> {{ bill_of_entry.description }}<br>
+
             <a href="{% url 'edit_bill_of_entry' bill_of_entry.id %}">Edit</a> |
             <a href="{% url 'delete_bill_of_entry' bill_of_entry.id %}">Delete</a> |
             <a href="{% url 'preview_document' bill_of_entry.id %}">Preview</a> |
