@@ -177,3 +177,40 @@ def delete_bill_of_entry(request, bill_of_entry_id):
     bill_of_entry = BillOfEntry.objects.get(id=bill_of_entry_id)
     bill_of_entry.delete()
     return redirect('bill_of_entry_list')
+
+# Internal Document Views
+def internal_document_list(request):
+    internal_documents = InternalDocument.objects.all()
+    return render(request, 'docs/internal_document_list.html', {'internal_documents': internal_documents})
+
+def add_internal_document(request):
+    if request.method == 'POST':
+        # Process form data and create a new internal document
+        # Handle file uploads
+        return redirect('internal_document_list')
+    return render(request, 'docs/add_internal_document.html')
+
+def edit_internal_document(request, internal_document_id):
+    internal_document = InternalDocument.objects.get(id=internal_document_id)
+    if request.method == 'POST':
+        # Process form data and update the internal document
+        return redirect('internal_document_list')
+    return render(request, 'docs/edit_internal_document.html', {'internal_document': internal_document})
+
+def search_internal_document(request):
+    query = request.GET.get('q')
+    internal_documents = InternalDocument.objects.filter(description__icontains=query)
+    return render(request, 'docs/internal_document_list.html', {'internal_documents': internal_documents, 'query': query})
+
+def preview_internal_document(request, document_id):
+    # Logic to preview the internal document
+    return HttpResponse("Internal Document Preview")
+
+def download_internal_document(request, document_id):
+    # Logic to download the internal document
+    return HttpResponse("Internal Document Download")
+
+def delete_internal_document(request, internal_document_id):
+    internal_document = InternalDocument.objects.get(id=internal_document_id)
+    internal_document.delete()
+    return redirect('internal_document_list')

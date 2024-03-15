@@ -1,0 +1,19 @@
+<!-- edit_internal_document.html -->
+<h1>Edit Internal Document</h1>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <label for="company_name">Company Name:</label>
+    <select name="company_name" id="company_name">
+        <!-- Populate the dropdown with company names -->
+        <option value="Company A" {% if internal_document.company_name == 'Company A' %}selected{% endif %}>Company A</option>
+        <option value="Company B" {% if internal_document.company_name == 'Company B' %}selected{% endif %}>Company B</option>
+        <!-- Add more options as needed -->
+    </select><br>
+    <label for="document_name">Document Name:</label>
+    <input type="text" name="document_name" value="{{ internal_document.document_name }}"><br>
+    <label for="description">Description:</label>
+    <textarea name="description">{{ internal_document.description }}</textarea><br>
+    <label for="documents">Attach Documents:</label>
+    <input type="file" name="documents" accept=".pdf, .png, .jpg"><br>
+    <input type="submit" value="Update Internal Document">
+</form>

@@ -1,0 +1,25 @@
+<!-- internal_document_list.html -->
+<h1>Internal Document List</h1>
+
+<form method="get">
+    <input type="text" name="q" placeholder="Search by description">
+    <button type="submit">Search</button>
+</form>
+
+{% if query %}
+    <p>Search results for: "{{ query }}"</p>
+{% endif %}
+
+<ul>
+    {% for internal_document in internal_documents %}
+        <li>
+            Company Name: {{ internal_document.company_name }}<br>
+            Document Name: {{ internal_document.document_name }}<br>
+            Description: {{ internal_document.description }}<br>
+            Attached Documents: <a href="{% url 'preview_internal_document' internal_document.id %}">Preview</a> | <a href="{% url 'download_internal_document' internal_document.id %}">Download</a><br>
+            <a href="{% url 'edit_internal_document' internal_document.id %}">Edit</a> | <a href="{% url 'delete_internal_document' internal_document.id %}">Delete</a>
+        </li>
+    {% empty %}
+        <li>No internal documents found.</li>
+    {% endfor %}
+</ul>

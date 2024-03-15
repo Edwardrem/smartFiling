@@ -36,4 +36,11 @@ urlpatterns = [
     path('bills_of_entry/<int:document_id>/preview/', views.preview_document, name='preview_document'),
     path('bills_of_entry/<int:document_id>/download/', views.download_document, name='download_document'),
     path('bills_of_entry/<int:bill_of_entry_id>/delete/', views.delete_bill_of_entry, name='delete_bill_of_entry'),
+    path('internal_documents/', views.internal_document_list, name='internal_document_list'),
+    path('internal_documents/add/', views.add_internal_document, name='add_internal_document'),
+    path('internal_documents/<int:internal_document_id>/edit/', views.edit_internal_document, name='edit_internal_document'),
+    path('internal_documents/search/', views.search_internal_document, name='search_internal_document'),
+    path('internal_documents/<int:document_id>/preview/', views.preview_internal_document, name='preview_internal_document'),
+    path('internal_documents/<int:document_id>/download/', views.download_internal_document, name='download_internal_document'),
+    path('internal_documents/<int:internal_document_id>/delete/', views.delete_internal_document, name='delete_internal_document'),
 ]
