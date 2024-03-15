@@ -185,18 +185,42 @@ def internal_document_list(request):
 
 def add_internal_document(request):
     if request.method == 'POST':
-        # Process form data and create a new internal document
-        # Handle file uploads
+        company_name = request.POST.get('company_name')
+        document_name = request.POST.get('document_name')
+        description = request.POST.get('description')
+        attached_document = request.FILES.get('documents')
+        
+        # Create a new InternalDocument object
+        new_internal_document = InternalDocument.objects.create(
+            company_name=company_name,
+            document_name=document_name,
+            description=description,
+            attached_documents=attached_document
+        )
+        new_internal_document.save()
+        
         return redirect('internal_document_list')
+    
     return render(request, 'docs/add_internal_document.html')
 
 def edit_internal_document(request, internal_document_id):
     internal_document = InternalDocument.objects.get(id=internal_document_id)
+    
     if request.method == 'POST':
-        # Process form data and update the internal document
+        company_name = request.POST.get('company_name')
+        document_name = request.POST.get('document_name')
+        description = request.POST.get('description')
+        attached_document = request.FILES.get('documents')
+        
+        internal_document.company_name = company_name
+        internal_document.document_name = document_name
+        internal_document.description = description
+        attached_documents=attached_document
+        internal_document.save()
+        
         return redirect('internal_document_list')
+    
     return render(request, 'docs/edit_internal_document.html', {'internal_document': internal_document})
-
 def search_internal_document(request):
     query = request.GET.get('q')
     internal_documents = InternalDocument.objects.filter(description__icontains=query)
@@ -207,8 +231,15 @@ def preview_internal_document(request, document_id):
     return HttpResponse("Internal Document Preview")
 
 def download_internal_document(request, document_id):
-    # Logic to download the internal document
-    return HttpResponse("Internal Document Download")
+    internal_document = get_object_or_404(InternalDocument, id=document_id)
+    
+    # Logic to download the internal document file
+    file_path = internal_document.attached_document.path
+    
+    with open(file_path, 'rb') as file:
+        response = HttpResponse(file.read(), content_type='application/octet-stream')
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(internal_document.attached_document.name)
+        return response
 
 def delete_internal_document(request, internal_document_id):
     internal_document = InternalDocument.objects.get(id=internal_document_id)

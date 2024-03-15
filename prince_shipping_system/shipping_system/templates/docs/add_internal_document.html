@@ -3,12 +3,7 @@
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label for="company_name">Company Name:</label>
-    <select name="company_name" id="company_name">
-        <!-- Populate the dropdown with company names -->
-        <option value="Company A">Company A</option>
-        <option value="Company B">Company B</option>
-        <!-- Add more options as needed -->
-    </select><br>
+    <input type="text" name="company_name"><br>
     <label for="document_name">Document Name:</label>
     <input type="text" name="document_name"><br>
     <label for="description">Description:</label>
