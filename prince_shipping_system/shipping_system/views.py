@@ -227,18 +227,29 @@ def search_internal_document(request):
     return render(request, 'docs/internal_document_list.html', {'internal_documents': internal_documents, 'query': query})
 
 def preview_internal_document(request, document_id):
-    # Logic to preview the internal document
-    return HttpResponse("Internal Document Preview")
+    internal_document = InternalDocument.objects.get(id=document_id)
+    file_path = internal_document.attached_documents.name  # Get the file path of the attached document
+    file_name = internal_document.attached_documents.name.split('/')[-1]  # Extract the file name
+    
+    # Check if the file is a PDF
+    if file_path.endswith('.pdf'):
+        # Serve the PDF file for preview
+        with open(os.path.join(settings.MEDIA_ROOT, file_path), 'rb') as pdf_file:
+            response = HttpResponse(pdf_file.read(), content_type='application/pdf')
+            response['Content-Disposition'] = f'inline; filename="{file_name}"'
+            return response
+    else:
+        return HttpResponse("Document Preview is not available for this file type.")
 
 def download_internal_document(request, document_id):
-    internal_document = get_object_or_404(InternalDocument, id=document_id)
+    internal_documents = get_object_or_404(InternalDocument, id=document_id)
     
     # Logic to download the internal document file
-    file_path = internal_document.attached_document.path
+    file_path = internal_documents.attached_documents.path
     
     with open(file_path, 'rb') as file:
         response = HttpResponse(file.read(), content_type='application/octet-stream')
-        response['Content-Disposition'] = 'attachment; filename="{}"'.format(internal_document.attached_document.name)
+        response['Content-Disposition'] = 'attachment; filename="{}"'.format(internal_documents.attached_documents.name)
         return response
 
 def delete_internal_document(request, internal_document_id):
