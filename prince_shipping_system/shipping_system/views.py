@@ -2,10 +2,29 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Importer, BillOfEntry, InternalDocument
 import mimetypes
 from django.http import HttpResponse, FileResponse
+from django.contrib.auth import authenticate, login
 from shipping_system import views
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
 import os
+
+
+
+
+
+#Login Views
+def login_page(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('home')
+        else:
+            # Add error handling for invalid login
+            return render(request, 'login.html', {'error': 'Invalid credentials. Please try again.'})
+    return render(request, 'login.html')
 
 # User Views
 def user_list(request):
@@ -256,3 +275,9 @@ def delete_internal_document(request, internal_document_id):
     internal_document = InternalDocument.objects.get(id=internal_document_id)
     internal_document.delete()
     return redirect('internal_document_list')
+
+#home
+from django.shortcuts import render
+
+def home(request):
+    return render(request, 'home.html')

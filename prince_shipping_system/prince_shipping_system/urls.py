@@ -20,6 +20,8 @@ from django.urls import path, include
 from shipping_system import views
 
 urlpatterns = [
+    path('login/', views.login_page, name='login'),
+    path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('users/', views.user_list, name='user_list'),
     path('users/add/', views.add_user, name='add_user'),
