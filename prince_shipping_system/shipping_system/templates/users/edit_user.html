@@ -1,4 +1,7 @@
 <!-- edit_user.html -->
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Edit User</h1>
 <form method="post">
     {% csrf_token %}
@@ -11,3 +14,4 @@
     </select><br>
     <input type="submit" value="Update User">
 </form>
+{% endblock %}

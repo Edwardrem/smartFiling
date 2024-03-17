@@ -29,12 +29,13 @@ def login_page(request):
 # User Views
 def user_list(request):
     users = User.objects.all()
+    title='Users'
 
     query = request.GET.get('q')
     if query:
         users = users.filter(name__icontains=query)  # Filter users by name (case-insensitive)
 
-    return render(request, 'users/user_list.html', {'users': users, 'query': query})
+    return render(request, 'users/user_list.html', {'users': users, 'query': query},)
 
 def add_user(request):
     if request.method == 'POST':
