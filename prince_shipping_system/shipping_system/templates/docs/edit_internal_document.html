@@ -1,4 +1,7 @@
 <!-- edit_internal_document.html -->
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Edit Internal Document</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -12,3 +15,4 @@
     <input type="file" name="documents" accept=".pdf, .png, .jpg"><br>
     <input type="submit" value="Update Internal Document">
 </form>
+{% endblock %}
