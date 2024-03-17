@@ -3,16 +3,25 @@
 {% block content %}
 
     <title>Login</title>
+<h1 class="mb-3">LOGIN</h1>
+<h3 class="mb-3">Please enter your Credentials</h3>
 
+    {% if error_message %}
+    <p style="color: red;">{{ error_message }}</p>
+{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="username" name="username" class="form-control" />
+        <label class="form-label" for="username">USERNAME</label>
+    </div>
 
-    <h1>Login</h1>
-    <form method="post">
-        {% csrf_token %}
-        <label for="username">Username:</label>
-        <input type="text" name="username"><br>
-        <label for="password">Password:</label>
-        <input type="password" name="password"><br>
-        <input type="submit" value="Login">
-    </form>
+    <div class="form-outline" data-mdb-input-init>
+        <input type="password" id="password" name="password" class="form-control" />
+        <label class="form-label" for="password">PASSWORD</label>
+    </div>
+
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4" id="submit">Login</button>
+</form>
 
 {% endblock %}

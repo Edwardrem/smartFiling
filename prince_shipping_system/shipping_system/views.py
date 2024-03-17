@@ -18,16 +18,22 @@ def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
+        
         user = authenticate(request, username=username, password=password)
+        
         if user is not None:
             login(request, user)
+            # Redirect to a specific page after login (e.g., home page)
             return redirect('home')
         else:
-            # Add error handling for invalid login
-            return render(request, 'login.html', {'error': 'Invalid credentials. Please try again.'})
+            # Handle invalid login credentials (display an error message, redirect to login page, etc.)
+            return render(request, 'login.html', {'error_message': 'Invalid username or password'})
+    
+    # If it's a GET request or login failed, render the login page
     return render(request, 'login.html')
 
 # User Views
+@login_required
 def user_list(request):
     users = User.objects.all()
     title='Users'
@@ -38,6 +44,7 @@ def user_list(request):
 
     return render(request, 'users/user_list.html', {'users': users, 'query': query},)
 
+@login_required
 def add_user(request):
     if request.method == 'POST':
         # Process form data and create a new user
@@ -49,6 +56,7 @@ def add_user(request):
         return redirect('user_list')
     return render(request, 'users/add_user.html')
 
+@login_required
 def edit_user(request, user_id):
     user = User.objects.get(id=user_id)
     if request.method == 'POST':
@@ -61,12 +69,14 @@ def edit_user(request, user_id):
         return redirect('user_list')
     return render(request, 'users/edit_user.html', {'user': user})
 
+@login_required
 def delete_user(request, user_id):
     user = User.objects.get(id=user_id)
     user.delete()
     return redirect('users/user_list')
 
 # Importer Views
+@login_required
 def importer_list(request):
     importers = Importer.objects.all()
 
@@ -76,6 +86,7 @@ def importer_list(request):
 
     return render(request, 'importers/importer_list.html', {'importers': importers, 'query': query})
 
+@login_required
 def add_importer(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -83,6 +94,7 @@ def add_importer(request):
         return redirect('importer_list')
     return render(request, 'importers/add_importer.html')
 
+@login_required
 def edit_importer(request, importer_id):
     importer = Importer.objects.get(id=importer_id)
     if request.method == 'POST':
@@ -91,16 +103,19 @@ def edit_importer(request, importer_id):
         return redirect('importer_list')
     return render(request, 'importers/edit_importer.html', {'importer': importer})
 
+@login_required
 def delete_importer(request, importer_id):
     importer = Importer.objects.get(id=importer_id)
     importer.delete()
     return redirect('importer_list')
 
 # Bill of Entry Views
+@login_required
 def bill_of_entry_list(request):
     bills_of_entry = BillOfEntry.objects.all()
     return render(request, 'bills/bill_of_entry_list.html', {'bills_of_entry': bills_of_entry})
 
+@login_required
 def add_bill_of_entry(request):
     importers = Importer.objects.all()
     
@@ -130,6 +145,7 @@ def add_bill_of_entry(request):
         return redirect('bill_of_entry_list')
     return render(request, 'bills/add_bill_of_entry.html', {'importers': importers})
 
+@login_required
 def edit_bill_of_entry(request, bill_of_entry_id):
     importers = Importer.objects.all()
     bill_of_entry = BillOfEntry.objects.get(id=bill_of_entry_id)
@@ -156,11 +172,13 @@ def edit_bill_of_entry(request, bill_of_entry_id):
         return redirect('bill_of_entry_list')
     return render(request, 'bills/edit_bill_of_entry.html', {'bill_of_entry': bill_of_entry, 'importers': importers})
 
+@login_required
 def search_bill_of_entry(request):
     query = request.GET.get('q')
     bills_of_entry = BillOfEntry.objects.filter(description__icontains=query)
     return render(request, 'bills/bill_of_entry_list.html', {'bills_of_entry': bills_of_entry, 'query': query})
 
+@login_required
 def preview_document(request, document_id):
     bill_of_entry = BillOfEntry.objects.get(id=document_id)
     file_path = bill_of_entry.attached_documents.name  # Get the file path of the attached document
@@ -176,6 +194,7 @@ def preview_document(request, document_id):
     else:
         return HttpResponse("Document Preview is not available for this file type.")
 
+@login_required
 def download_document(request, document_id):
     # Retrieve the BillOfEntry object based on the document_id
     bill_of_entry = get_object_or_404(BillOfEntry, id=document_id)
@@ -194,16 +213,19 @@ def download_document(request, document_id):
     
     return response
 
+@login_required
 def delete_bill_of_entry(request, bill_of_entry_id):
     bill_of_entry = BillOfEntry.objects.get(id=bill_of_entry_id)
     bill_of_entry.delete()
     return redirect('bill_of_entry_list')
 
 # Internal Document Views
+@login_required
 def internal_document_list(request):
     internal_documents = InternalDocument.objects.all()
     return render(request, 'docs/internal_document_list.html', {'internal_documents': internal_documents})
 
+@login_required
 def add_internal_document(request):
     if request.method == 'POST':
         company_name = request.POST.get('company_name')
@@ -224,6 +246,7 @@ def add_internal_document(request):
     
     return render(request, 'docs/add_internal_document.html')
 
+@login_required
 def edit_internal_document(request, internal_document_id):
     internal_document = InternalDocument.objects.get(id=internal_document_id)
     
@@ -242,11 +265,14 @@ def edit_internal_document(request, internal_document_id):
         return redirect('internal_document_list')
     
     return render(request, 'docs/edit_internal_document.html', {'internal_document': internal_document})
+
+@login_required
 def search_internal_document(request):
     query = request.GET.get('q')
     internal_documents = InternalDocument.objects.filter(description__icontains=query)
     return render(request, 'docs/internal_document_list.html', {'internal_documents': internal_documents, 'query': query})
 
+@login_required
 def preview_internal_document(request, document_id):
     internal_document = InternalDocument.objects.get(id=document_id)
     file_path = internal_document.attached_documents.name  # Get the file path of the attached document
@@ -262,6 +288,7 @@ def preview_internal_document(request, document_id):
     else:
         return HttpResponse("Document Preview is not available for this file type.")
 
+@login_required
 def download_internal_document(request, document_id):
     internal_documents = get_object_or_404(InternalDocument, id=document_id)
     
@@ -273,21 +300,22 @@ def download_internal_document(request, document_id):
         response['Content-Disposition'] = 'attachment; filename="{}"'.format(internal_documents.attached_documents.name)
         return response
 
+@login_required
 def delete_internal_document(request, internal_document_id):
     internal_document = InternalDocument.objects.get(id=internal_document_id)
     internal_document.delete()
     return redirect('internal_document_list')
 
-#home
-from django.shortcuts import render
-
+@login_required
 def home(request):
     return render(request, 'home.html')
 
+@login_required
 def my_account(request):
     user = request.user  # Get the current logged-in user
-    return render(request, 'user/my_account.html', {'user': user})
+    return render(request, 'users/my_account.html', {'user': user})
 
+@login_required
 def edit_user_details(request):
     user = request.user  # Get the current logged-in user
     if request.method == 'POST':
@@ -296,8 +324,9 @@ def edit_user_details(request):
         user.email = request.POST.get('email')
         user.save()
         return redirect('my_account')
-    return render(request, 'user/edit_user_details.html', {'user': user})
+    return render(request, 'users/edit_user.html', {'user': user})
 
+@login_required
 def user_logout(request):
     logout(request)
-    return redirect('login_page')
+    return redirect('user_login')

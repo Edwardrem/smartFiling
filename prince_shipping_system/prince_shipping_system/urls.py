@@ -21,6 +21,7 @@ from shipping_system import views
 
 urlpatterns = [
     path('login/', views.user_login, name='user_login'),
+    path('accounts/login/', views.user_login, name='user_login'),
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('users/', views.user_list, name='user_list'),
