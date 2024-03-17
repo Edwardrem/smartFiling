@@ -1,4 +1,7 @@
 <!-- internal_document_list.html -->
+{% extends 'base.html' %}
+
+{% block content %}
 <h1>Internal Document List</h1>
 
 <form method="get">
@@ -23,3 +26,4 @@
         <li>No internal documents found.</li>
     {% endfor %}
 </ul>
+{% endblock %}
