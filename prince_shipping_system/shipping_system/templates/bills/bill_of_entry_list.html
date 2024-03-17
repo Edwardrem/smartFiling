@@ -1,29 +1,53 @@
 <!-- bill_of_entry_list.html -->
-<h1>Bill of Entry List</h1>
 
-<form method="get">
-    <input type="text" name="q" placeholder="Search by description">
-    <button type="submit">Search</button>
-</form>
 
-{% if query %}
-    <p>Search results for: "{{ query }}"</p>
-{% endif %}
+{% extends "base.html" %}
 
-<ul>
-    {% for bill_of_entry in bills_of_entry %}
-        <li>{{ bill_of_entry.description }}
-            <strong>Importer Name:</strong> {{ bill_of_entry.importer.name }}<br>
-            <strong>Entry Number:</strong> {{ bill_of_entry.entry_number }}<br>
-            <strong>Invoice/Reference:</strong> {{ bill_of_entry.invoice_reference }}<br>
-            <strong>Description:</strong> {{ bill_of_entry.description }}<br>
+{% block content %}
+<h1>Bill of Entry List</h1><a href="{% url 'add_bill_of_entry' %}">Add Bill of Entry</a>
+  <table id="data" class="table table-striped">
+    <thead>
+      <tr>
+        <th>Importer Name</th>
+        <th>Entry Number</th>
+        <th>Invoice/Reference:</th>
+        <th>Description</th>
+        <th>Edit Bill of Entry</th>
+        <th>Preview Document</th>
+        <th>Download Document</th>
+        <th>Delete Document</th>
+      </tr>
+    </thead>
+    <tbody>
+        {% for bill_of_entry in bills_of_entry %}
+        <tr>
+          <td>{{ bill_of_entry.importer.name }}</td>
+          <td>{{ bill_of_entry.entry_number }}</td>
+          <td>{{ bill_of_entry.invoice_reference }}</td>
+          <td>{{ bill_of_entry.description }}</td>
+          <td><a href="{% url 'edit_bill_of_entry' bill_of_entry.id %}">Edit</a> </td>
+          <td><a href="{% url 'preview_document' bill_of_entry.id %}">Preview</a> </td>
+          <td><a href="{% url 'download_document' bill_of_entry.id %}">Download</a></td>
+          <td><a href="{% url 'delete_bill_of_entry' bill_of_entry.id %}">Delete</a></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+{% endblock %}
+{% block scripts %}
+  <script>
+    $(document).ready(function () {
+      $('#data').DataTable();
+    });
+  </script>
+{% endblock %}
 
-            <a href="{% url 'edit_bill_of_entry' bill_of_entry.id %}">Edit</a> |
-            <a href="{% url 'delete_bill_of_entry' bill_of_entry.id %}">Delete</a> |
-            <a href="{% url 'preview_document' bill_of_entry.id %}">Preview</a> |
-            <a href="{% url 'download_document' bill_of_entry.id %}">Download</a>
-        </li>
-    {% empty %}
-        <li>No bills of entry found.</li>
-    {% endfor %}
-</ul>
+
+
+
+
+
+
+
+
+

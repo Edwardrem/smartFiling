@@ -1,4 +1,7 @@
 <!-- edit_bill_of_entry.html -->
+{% extends "base.html" %}
+
+{% block content %}
 <h1>Edit Bill of Entry</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
@@ -18,3 +21,4 @@
     <input type="file" name="documents" accept=".pdf, .png, .jpg"><br>
     <input type="submit" value="Update Bill of Entry">
 </form>
+{% endblock %}
