@@ -20,7 +20,7 @@ from django.urls import path, include
 from shipping_system import views
 
 urlpatterns = [
-    path('login/', views.login_page, name='login'),
+    path('login/', views.user_login, name='user_login'),
     path('', views.home, name='home'),
     path('admin/', admin.site.urls),
     path('users/', views.user_list, name='user_list'),
@@ -45,4 +45,7 @@ urlpatterns = [
     path('internal_documents/<int:document_id>/preview/', views.preview_internal_document, name='preview_internal_document'),
     path('internal_documents/<int:document_id>/download/', views.download_internal_document, name='download_internal_document'),
     path('internal_documents/<int:internal_document_id>/delete/', views.delete_internal_document, name='delete_internal_document'),
+    path('my-account/', views.my_account, name='my_account'),
+    path('my-account/edit/', views.edit_user_details, name='edit_user_details'),
+    path('logout/', views.user_logout, name='logout'),
 ]

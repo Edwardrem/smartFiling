@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import User, Importer, BillOfEntry, InternalDocument
+from django.contrib.auth.decorators import login_required
 import mimetypes
 from django.http import HttpResponse, FileResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from shipping_system import views
 from django.conf import settings
 from django.core.files.storage import FileSystemStorage
@@ -13,7 +14,7 @@ import os
 
 
 #Login Views
-def login_page(request):
+def user_login(request):
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -282,3 +283,21 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, 'home.html')
+
+def my_account(request):
+    user = request.user  # Get the current logged-in user
+    return render(request, 'user/my_account.html', {'user': user})
+
+def edit_user_details(request):
+    user = request.user  # Get the current logged-in user
+    if request.method == 'POST':
+        user.first_name = request.POST.get('first_name')
+        user.last_name = request.POST.get('last_name')
+        user.email = request.POST.get('email')
+        user.save()
+        return redirect('my_account')
+    return render(request, 'user/edit_user_details.html', {'user': user})
+
+def user_logout(request):
+    logout(request)
+    return redirect('login_page')
