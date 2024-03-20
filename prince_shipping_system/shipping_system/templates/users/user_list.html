@@ -11,7 +11,6 @@
         <th>User Email</th>
         <th>User Role</th>
         <th>Edit User</th>
-        <th>Delete User</th>
       </tr>
     </thead>
     <tbody>
@@ -23,9 +22,6 @@
           <td><a href="{% url 'edit_user' user.id %}">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init>Edit</button>
           </a> </td>
-          <td> <a href="{% url 'delete_user' user.id %}">
-            <button type="button" class="btn btn-primary" data-mdb-ripple-init>Delete</button>
-          </a></td>
         </tr>
         </tr>
       {% endfor %}
