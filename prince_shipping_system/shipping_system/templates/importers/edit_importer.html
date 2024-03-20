@@ -5,7 +5,10 @@
 <h1>Edit Importer</h1>
 <form method="post">
     {% csrf_token %}
-    <input type="text" name="name" value="{{ importer.name }}"><br>
-    <input type="submit" value="Update Importer">
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="name" value="{{ importer.name }}"/>
+        <label class="form-label" for="form12">Edit Importer</label>
+      </div>
+      <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4" id="submit">Update Importer</button>
 </form>
 {% endblock %}

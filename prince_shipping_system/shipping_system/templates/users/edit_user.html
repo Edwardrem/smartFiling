@@ -5,13 +5,26 @@
 <h1>Edit User</h1>
 <form method="post">
     {% csrf_token %}
-    <input type="text" name="name" value="{{ user.name }}"><br>
-    <input type="email" name="email" value="{{ user.email }}"><br>
-    <input type="password" name="password" value="{{ user.password }}"><br>
-    <select name="role">
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="name" value="{{ user.name }}"/>
+        <label class="form-label" for="form12">User Name</label>
+    </div>
+
+    <div class="form-outline" data-mdb-input-init>
+        <input type="email" id="form12" class="form-control" name="email" value="{{ user.email }}"/>
+        <label class="form-label" for="form12">Email</label>
+    </div>
+
+    <div class="form-outline" data-mdb-input-init>
+        <input type="password" id="form12" class="form-control" name="password" value="{{ user.password }}"/>
+        <label class="form-label" for="form12">Password</label>
+    </div>
+
+
+    <select name="role" class="form-select" aria-label="Default select example">
         <option value="Manager" {% if user.role == 'Manager' %}selected{% endif %}>Manager</option>
         <option value="User" {% if user.role == 'User' %}selected{% endif %}>User</option>
     </select><br>
-    <input type="submit" value="Update User">
+    <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Update User</button>
 </form>
 {% endblock %}

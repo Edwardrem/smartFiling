@@ -5,14 +5,24 @@
 <h1>Edit Internal Document</h1>
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <label for="company_name">Company Name:</label>
-    <input type="text" name="company_name" value="{{ internal_document.company_name }}"><br>
-    <label for="document_name">Document Name:</label>
-    <input type="text" name="document_name" value="{{ internal_document.document_name }}"><br>
-    <label for="description">Description:</label>
-    <textarea name="description">{{ internal_document.description }}</textarea><br>
-    <label for="documents">Attach Documents:</label>
-    <input type="file" name="documents" accept=".pdf, .png, .jpg"><br>
-    <input type="submit" value="Update Internal Document">
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="company_name" value="{{ internal_document.company_name }}"/>
+        <label class="form-label" for="form12">Company Name</label>
+    </div>
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="document_name" value="{{ internal_document.document_name }}"/>
+        <label class="form-label" for="form12">Document Name</label>
+    </div>
+    <div class="form-outline" data-mdb-input-init>
+        <textarea class="form-control" id="description" rows="4" name="description" value="{{ internal_document.description }}"></textarea>
+        <label class="form-label" for="description">Description</label>
+    </div>
+
+
+    <label for="documents"  class="form-label">Attach Documents:</label>
+    <input type="file" name="documents" class="form-control" accept=".pdf, .png, .jpg"><br id="documents">
+
+    <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4" id="submit">Update Document</button>>
+    
 </form>
 {% endblock %}

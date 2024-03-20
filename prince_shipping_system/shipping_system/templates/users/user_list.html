@@ -1,7 +1,9 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>All User</h1><a href="{% url 'add_user' %}">Add User</a>
+<h1>All User</h1><a href="{% url 'add_user' %}">
+  <button type="button" class="btn btn-primary" data-mdb-ripple-init>Add User</button>
+</a>
   <table id="data" class="table table-striped">
     <thead>
       <tr>
@@ -18,8 +20,12 @@
           <td>{{ user.name }}</td>
           <td>{{ user.email }}</td>
           <td>{{ user.role }}</td>
-          <td><a href="{% url 'edit_user' user.id %}">Edit</a> </td>
-          <td> <a href="{% url 'delete_user' user.id %}">Delete</a></td>
+          <td><a href="{% url 'edit_user' user.id %}">
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init>Edit</button>
+          </a> </td>
+          <td> <a href="{% url 'delete_user' user.id %}">
+            <button type="button" class="btn btn-primary" data-mdb-ripple-init>Delete</button>
+          </a></td>
         </tr>
       {% endfor %}
     </tbody>

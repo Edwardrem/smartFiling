@@ -5,7 +5,10 @@
 <h1>Add New Importer</h1>
 <form method="post">
     {% csrf_token %}
-    <input type="text" name="name" placeholder="Importer Name"><br>
-    <input type="submit" value="Add Importer">
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="name"/>
+        <label class="form-label" for="form12">Add New Importer</label>
+      </div>
+      <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4" id="submit">Submit</button>
 </form>
 {% endblock %}

@@ -3,11 +3,11 @@
 
 {% block content %}
 
-<h1>My Account</h1>
-<p>First Name: {{ user.first_name }}</p>
-<p>Last Name: {{ user.last_name }}</p>
-<p>Email: {{ user.email }}</p>
 
-<a href="{% url 'edit_user_details' %}">Edit Details</a>
-<a href="{% url 'logout' %}">Logout</a>
+<h1 class="mb-3">My Account</h1>
+<p class="mb-3">Email: {{ user.email }}</p>
+
+<a href="{% url 'logout'  %}">
+    <button type="button" class="btn btn-primary" data-mdb-ripple-init>Logout</button>
+  </a>
 {% endblock %}

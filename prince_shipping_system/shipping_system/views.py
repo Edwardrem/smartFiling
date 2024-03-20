@@ -316,8 +316,10 @@ def my_account(request):
     return render(request, 'users/my_account.html', {'user': user})
 
 @login_required
-def edit_user_details(request):
+def edit_user_details(request, user_id):
+
     user = request.user  # Get the current logged-in user
+    user = User.objects.get(id=user_id)
     if request.method == 'POST':
         user.first_name = request.POST.get('first_name')
         user.last_name = request.POST.get('last_name')

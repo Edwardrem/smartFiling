@@ -5,13 +5,26 @@
 <h1>Add New User</h1>
 <form method="post">
     {% csrf_token %}
-    <input type="text" name="name" placeholder="Name"><br>
-    <input type="email" name="email" placeholder="Email"><br>
-    <input type="password" name="password" placeholder="Password"><br>
-    <select name="role">
+    <div class="form-outline" data-mdb-input-init>
+        <input type="text" id="form12" class="form-control" name="name" placeholder="Name"/>
+        <label class="form-label" for="form12">Name</label>
+      </div>
+    <div class="form-outline" data-mdb-input-init>
+        <input type="email" id="form12" class="form-control" name="email" placeholder="Email"/>
+        <label class="form-label" for="form12">Email</label>
+      </div>
+    <div class="form-outline" data-mdb-input-init>
+        <input type="password" id="form12" class="form-control" name="password" placeholder="Password"/>
+        <label class="form-label" for="form12">Password</label>
+      </div>
+     
+
+
+    <select name="role" class="form-select" aria-label="Default select example">>
         <option value="Manager">Manager</option>
         <option value="User">User</option>
     </select><br>
-    <input type="submit" value="Add User">
+    
+    <button type="submit" class="btn btn-primary" data-mdb-ripple-init>Add User</button>
 </form>
 {% endblock %}
