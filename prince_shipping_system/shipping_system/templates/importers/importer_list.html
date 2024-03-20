@@ -12,6 +12,8 @@
     <thead>
       <tr>
         <th>Importer Name</th>
+        <th>Created On</th>
+        <th>Updated On</th>
         <th>Edit Impoter</th>
         <th>Delete Importer</th>
       </tr>
@@ -20,6 +22,8 @@
         {% for importer in importers %}
         <tr>
           <td>{{ importer.name }}</td>
+          <td>{{ importer.created_on }}</td>
+          <td>{{ importer.updated_on }}</td>
           <td><a href="{% url 'edit_importer' importer.id %}">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init>Edit</button>
           </a> </td>

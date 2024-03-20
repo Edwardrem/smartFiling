@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'shipping_system',
     'bootstrap5',
+    'django_admin_logs',
 ]
 
 MIDDLEWARE = [

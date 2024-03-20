@@ -11,6 +11,8 @@
         <th>Company Name</th>
         <th>Document Name</th>
         <th>Description</th>
+        <th>Created On</th>
+        <th>Updated On</th>
         <th>Edit Document</th>
         <th>Preview Document</th>
         <th>Download Document</th>
@@ -23,6 +25,8 @@
           <td>{{ internal_document.company_name }}</td>
           <td>{{ internal_document.document_name }}</td>
           <td>{{ internal_document.description }}</td>
+          <td>{{ internal_document.created_on }}</td>
+          <td>{{ internal_document.updated_on }}</td>
           <td><a href="{% url 'edit_internal_document' internal_document.id %}">
             <button type="button" class="btn btn-primary" data-mdb-ripple-init>Edit </button>
           </a></td>
