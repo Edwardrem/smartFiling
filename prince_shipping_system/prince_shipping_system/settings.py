@@ -25,7 +25,9 @@ SECRET_KEY = 'django-insecure-j6%8w+sq&ve%(cm2dlp4%vcmm#h=)=^^$ot_l&iz+*@@wcms8^
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["smartfiling.princeshipping.co.zw"]
+#add local host to allowed origin
+
+ALLOWED_HOSTS = ["smartfiling.princeshipping.co.zw,", "127.0.0.1"]
 
 
 # Application definition
